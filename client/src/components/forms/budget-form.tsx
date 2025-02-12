@@ -39,7 +39,7 @@ export default function BudgetForm({ onSuccess }: BudgetFormProps) {
     mutationFn: async (budget: InsertBudget) => {
       const res = await apiRequest("POST", "/api/budgets", {
         ...budget,
-        amount: parseFloat(budget.amount) //Added to handle conversion to number
+        amount: budget.amount.toString() // Keep as string for API
       });
       return res.json();
     },
@@ -50,7 +50,9 @@ export default function BudgetForm({ onSuccess }: BudgetFormProps) {
         title: "Success",
         description: "Budget added successfully"
       });
-      onSuccess?.();
+      if (onSuccess) {
+        onSuccess();
+      }
     },
     onError: (error) => {
       toast({
@@ -61,9 +63,17 @@ export default function BudgetForm({ onSuccess }: BudgetFormProps) {
     }
   });
 
+  const onSubmit = async (data: InsertBudget) => {
+    try {
+      await mutation.mutateAsync(data);
+    } catch (error) {
+      // Error is handled in mutation.onError
+    }
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Select
