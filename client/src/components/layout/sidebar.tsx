@@ -8,11 +8,14 @@ import {
   TrendingUp,
   Settings,
   LogOut,
-  BarChart
+  BarChart,
+  Moon,
+  Sun
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAuth } from "@/hooks/use-auth";
+import { useTheme } from "@/hooks/use-theme";
 
 const sidebarItems = [
   { icon: Home, label: "Dashboard", href: "/" },
@@ -27,6 +30,7 @@ const sidebarItems = [
 export function Sidebar() {
   const [location] = useLocation();
   const { logoutMutation } = useAuth();
+  const { theme, setTheme } = useTheme();
 
   return (
     <div className="flex h-screen flex-col border-r bg-sidebar">
@@ -54,7 +58,24 @@ export function Sidebar() {
           })}
         </nav>
       </ScrollArea>
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4 border-t border-sidebar-border space-y-2">
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-2"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        >
+          {theme === "dark" ? (
+            <>
+              <Sun className="h-4 w-4" />
+              Light Mode
+            </>
+          ) : (
+            <>
+              <Moon className="h-4 w-4" />
+              Dark Mode
+            </>
+          )}
+        </Button>
         <Button
           variant="ghost"
           className="w-full justify-start gap-2 text-sidebar-foreground hover:text-sidebar-foreground"
