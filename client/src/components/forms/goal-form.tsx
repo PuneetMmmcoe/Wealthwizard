@@ -71,7 +71,7 @@ export default function GoalForm({ onSuccess }: GoalFormProps) {
               type="number"
               step="0.01"
               placeholder="Target Amount"
-              {...form.register("targetAmount", { valueAsNumber: true })}
+              {...form.register("targetAmount")}
             />
             {form.formState.errors.targetAmount && (
               <p className="text-sm text-red-500">{form.formState.errors.targetAmount.message}</p>
@@ -91,6 +91,7 @@ export default function GoalForm({ onSuccess }: GoalFormProps) {
 
         <Button
           type="submit"
+          className="w-full"
           disabled={mutation.isPending}
         >
           Set Goal

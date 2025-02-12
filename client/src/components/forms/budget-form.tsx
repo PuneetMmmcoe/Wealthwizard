@@ -39,7 +39,7 @@ export default function BudgetForm({ onSuccess }: BudgetFormProps) {
     mutationFn: async (budget: InsertBudget) => {
       const res = await apiRequest("POST", "/api/budgets", {
         ...budget,
-        amount: budget.amount.toString()
+        amount: parseFloat(budget.amount) //Added to handle conversion to number
       });
       return res.json();
     },
@@ -91,7 +91,7 @@ export default function BudgetForm({ onSuccess }: BudgetFormProps) {
               type="number"
               step="0.01"
               placeholder="Budget Amount"
-              {...form.register("amount", { valueAsNumber: true })}
+              {...form.register("amount")}
             />
             {form.formState.errors.amount && (
               <p className="text-sm text-red-500">{form.formState.errors.amount.message}</p>
@@ -133,6 +133,7 @@ export default function BudgetForm({ onSuccess }: BudgetFormProps) {
 
         <Button
           type="submit"
+          className="w-full"
           disabled={mutation.isPending}
         >
           Set Budget
