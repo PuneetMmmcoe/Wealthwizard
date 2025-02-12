@@ -1,0 +1,34 @@
+User Authentication
+
+Registration & Login: Secure user sign-up and login using JWT authentication.
+Expense Tracking
+
+CRUD Operations: Users can add, view, update, and delete individual expense entries.
+Categorization & Dates: Each expense includes details such as title, amount, category, date, and an optional recurring flag.
+Budget Management
+
+Set Budgets: Users specify a monthly spending limit for each category (including inputs for category, monthly budget, month, and year).
+Usage Calculation: The app compares actual expenses against the set budget to show percentage usage and remaining funds.
+Savings Goals
+
+Goal Definition: Users can define savings goals by specifying a goal title, target amount, and target date.
+Progress Tracking: The app tracks and calculates the percentage of the goal achieved (using current saved amount versus target amount).
+Earnings Tracking
+
+Record Income: Users can log earnings (with amount and date), enabling a comparison of income versus spending.
+Recurring Expenses Monitoring
+
+Flag Recurring Expenses: Users can mark certain expenses as recurring (e.g., subscriptions, rent).
+Upcoming Recurring Alerts: The system counts and alerts for upcoming recurring payments.
+Unified Data Entry Page
+
+Consolidated Input: A single “Finance Inputs” page lets users choose whether to add expenses, budgets, goals, or earnings through a tabbed interface.
+Dashboard Summary & Insights
+
+Aggregated Metrics: The dashboard (homepage) displays aggregated data such as total expenses, total earnings, net savings (earnings minus expenses), budget usage, savings goal progress, and recurring expenses count.
+Visual Components: Key insights are shown via cards, progress bars, and charts to provide an at-a-glance understanding of financial health.
+Actionable Insights: The dashboard helps users decide whether they’re on track with their spending and savings goals and highlights areas that may need attention.
+Modern UI with Dark Mode
+
+Responsive Design: Built with React and styled using Tailwind CSS for a clean, modern look.
+Dark Mode Support: Users can toggle dark mode for a more comfortable viewing experience.
