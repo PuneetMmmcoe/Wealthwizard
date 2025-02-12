@@ -9,22 +9,29 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { format } from "date-fns";
 
-export default function GoalForm() {
+interface GoalFormProps {
+  onSuccess?: () => void;
+}
+
+export default function GoalForm({ onSuccess }: GoalFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const form = useForm<InsertGoal>({
     resolver: zodResolver(insertGoalSchema),
     defaultValues: {
       title: "",
-      targetAmount: 0,
+      targetAmount: "",
       targetDate: format(new Date(), "yyyy-MM-dd")
     }
   });
 
   const mutation = useMutation({
     mutationFn: async (goal: InsertGoal) => {
-      const res = await apiRequest("POST", "/api/goals", goal);
+      const res = await apiRequest("POST", "/api/goals", {
+        ...goal,
+        targetAmount: goal.targetAmount.toString()
+      });
       return res.json();
     },
     onSuccess: () => {
@@ -34,6 +41,7 @@ export default function GoalForm() {
         title: "Success",
         description: "Savings goal added successfully"
       });
+      onSuccess?.();
     },
     onError: (error) => {
       toast({
@@ -81,7 +89,7 @@ export default function GoalForm() {
           </div>
         </div>
 
-        <Button 
+        <Button
           type="submit"
           disabled={mutation.isPending}
         >

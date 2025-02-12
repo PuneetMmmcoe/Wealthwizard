@@ -14,10 +14,14 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => ({
   label: new Date(0, i).toLocaleString('default', { month: 'long' })
 }));
 
-export default function BudgetForm() {
+interface BudgetFormProps {
+  onSuccess?: () => void;
+}
+
+export default function BudgetForm({ onSuccess }: BudgetFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth() + 1;
 
@@ -25,7 +29,7 @@ export default function BudgetForm() {
     resolver: zodResolver(insertBudgetSchema),
     defaultValues: {
       category: "Other",
-      amount: 0,
+      amount: "",
       month: currentMonth,
       year: currentYear
     }
@@ -33,7 +37,10 @@ export default function BudgetForm() {
 
   const mutation = useMutation({
     mutationFn: async (budget: InsertBudget) => {
-      const res = await apiRequest("POST", "/api/budgets", budget);
+      const res = await apiRequest("POST", "/api/budgets", {
+        ...budget,
+        amount: budget.amount.toString()
+      });
       return res.json();
     },
     onSuccess: () => {
@@ -43,6 +50,7 @@ export default function BudgetForm() {
         title: "Success",
         description: "Budget added successfully"
       });
+      onSuccess?.();
     },
     onError: (error) => {
       toast({
@@ -123,7 +131,7 @@ export default function BudgetForm() {
           </div>
         </div>
 
-        <Button 
+        <Button
           type="submit"
           disabled={mutation.isPending}
         >
