@@ -7,7 +7,8 @@ import {
   Target,
   TrendingUp,
   Settings,
-  LogOut
+  LogOut,
+  BarChart
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -19,6 +20,7 @@ const sidebarItems = [
   { icon: PiggyBank, label: "Budget", href: "/budget" },
   { icon: Target, label: "Goals", href: "/goals" },
   { icon: TrendingUp, label: "Income", href: "/income" },
+  { icon: BarChart, label: "Analytics", href: "/analytics" },
   { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
