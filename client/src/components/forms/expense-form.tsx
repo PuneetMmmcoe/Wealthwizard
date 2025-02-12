@@ -11,15 +11,19 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { format } from "date-fns";
 
-export default function ExpenseForm() {
+interface ExpenseFormProps {
+  onSuccess?: () => void;
+}
+
+export default function ExpenseForm({ onSuccess }: ExpenseFormProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const form = useForm<InsertExpense>({
     resolver: zodResolver(insertExpenseSchema),
     defaultValues: {
       title: "",
-      amount: 0,
+      amount: "",
       category: "Other",
       date: format(new Date(), "yyyy-MM-dd"),
       isRecurring: false
@@ -28,7 +32,10 @@ export default function ExpenseForm() {
 
   const mutation = useMutation({
     mutationFn: async (expense: InsertExpense) => {
-      const res = await apiRequest("POST", "/api/expenses", expense);
+      const res = await apiRequest("POST", "/api/expenses", {
+        ...expense,
+        amount: expense.amount.toString()
+      });
       return res.json();
     },
     onSuccess: () => {
@@ -38,6 +45,7 @@ export default function ExpenseForm() {
         title: "Success",
         description: "Expense added successfully"
       });
+      onSuccess?.();
     },
     onError: (error) => {
       toast({
@@ -51,7 +59,7 @@ export default function ExpenseForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-4">
           <div className="space-y-2">
             <Input
               placeholder="Expense Title"
@@ -67,7 +75,7 @@ export default function ExpenseForm() {
               type="number"
               step="0.01"
               placeholder="Amount"
-              {...form.register("amount", { valueAsNumber: true })}
+              {...form.register("amount")}
             />
             {form.formState.errors.amount && (
               <p className="text-sm text-red-500">{form.formState.errors.amount.message}</p>
@@ -116,6 +124,7 @@ export default function ExpenseForm() {
 
         <Button 
           type="submit"
+          className="w-full"
           disabled={mutation.isPending}
         >
           Add Expense
