@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+// Load environment variables
+import dotenv from 'dotenv';
+dotenv.config();
+
 // User Schema
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
@@ -61,87 +65,182 @@ export const storage = {
 
   // User operations
   async getUser(id) {
-    return User.findById(id);
+    try {
+      return await User.findById(id);
+    } catch (error) {
+      console.error('Error getting user:', error);
+      throw new Error('Error getting user');
+    }
   },
 
   async getUserByUsername(username) {
-    return User.findOne({ username });
+    try {
+      return await User.findOne({ username });
+    } catch (error) {
+      console.error('Error getting user by username:', error);
+      throw new Error('Error getting user by username');
+    }
   },
 
   async createUser(data) {
-    const user = new User(data);
-    return user.save();
+    try {
+      const user = new User(data);
+      return await user.save();
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw new Error('Error creating user');
+    }
   },
 
   // Expense operations
   async getExpenses(userId) {
-    return Expense.find({ userId });
+    try {
+      return await Expense.find({ userId });
+    } catch (error) {
+      console.error('Error getting expenses:', error);
+      throw new Error('Error getting expenses');
+    }
   },
 
   async createExpense(userId, data) {
-    const expense = new Expense({ ...data, userId });
-    return expense.save();
+    try {
+      const expense = new Expense({ ...data, userId });
+      return await expense.save();
+    } catch (error) {
+      console.error('Error creating expense:', error);
+      throw new Error('Error creating expense');
+    }
   },
 
   async updateExpense(id, data) {
-    return Expense.findByIdAndUpdate(id, data, { new: true });
+    try {
+      return await Expense.findByIdAndUpdate(id, data, { new: true });
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      throw new Error('Error updating expense');
+    }
   },
 
   async deleteExpense(id) {
-    return Expense.findByIdAndDelete(id);
+    try {
+      return await Expense.findByIdAndDelete(id);
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+      throw new Error('Error deleting expense');
+    }
   },
 
   // Budget operations
   async getBudgets(userId) {
-    return Budget.find({ userId });
+    try {
+      return await Budget.find({ userId });
+    } catch (error) {
+      console.error('Error getting budgets:', error);
+      throw new Error('Error getting budgets');
+    }
   },
 
   async createBudget(userId, data) {
-    const budget = new Budget({ ...data, userId });
-    return budget.save();
+    try {
+      const budget = new Budget({ ...data, userId });
+      return await budget.save();
+    } catch (error) {
+      console.error('Error creating budget:', error);
+      throw new Error('Error creating budget');
+    }
   },
 
   async updateBudget(id, data) {
-    return Budget.findByIdAndUpdate(id, data, { new: true });
+    try {
+      return await Budget.findByIdAndUpdate(id, data, { new: true });
+    } catch (error) {
+      console.error('Error updating budget:', error);
+      throw new Error('Error updating budget');
+    }
   },
 
   async deleteBudget(id) {
-    return Budget.findByIdAndDelete(id);
+    try {
+      return await Budget.findByIdAndDelete(id);
+    } catch (error) {
+      console.error('Error deleting budget:', error);
+      throw new Error('Error deleting budget');
+    }
   },
 
   // Goal operations
   async getGoals(userId) {
-    return Goal.find({ userId });
+    try {
+      return await Goal.find({ userId });
+    } catch (error) {
+      console.error('Error getting goals:', error);
+      throw new Error('Error getting goals');
+    }
   },
 
   async createGoal(userId, data) {
-    const goal = new Goal({ ...data, userId });
-    return goal.save();
+    try {
+      const goal = new Goal({ ...data, userId });
+      return await goal.save();
+    } catch (error) {
+      console.error('Error creating goal:', error);
+      throw new Error('Error creating goal');
+    }
   },
 
   async updateGoal(id, data) {
-    return Goal.findByIdAndUpdate(id, data, { new: true });
+    try {
+      return await Goal.findByIdAndUpdate(id, data, { new: true });
+    } catch (error) {
+      console.error('Error updating goal:', error);
+      throw new Error('Error updating goal');
+    }
   },
 
   async deleteGoal(id) {
-    return Goal.findByIdAndDelete(id);
+    try {
+      return await Goal.findByIdAndDelete(id);
+    } catch (error) {
+      console.error('Error deleting goal:', error);
+      throw new Error('Error deleting goal');
+    }
   },
 
   // Earning operations
   async getEarnings(userId) {
-    return Earning.find({ userId });
+    try {
+      return await Earning.find({ userId });
+    } catch (error) {
+      console.error('Error getting earnings:', error);
+      throw new Error('Error getting earnings');
+    }
   },
 
   async createEarning(userId, data) {
-    const earning = new Earning({ ...data, userId });
-    return earning.save();
+    try {
+      const earning = new Earning({ ...data, userId });
+      return await earning.save();
+    } catch (error) {
+      console.error('Error creating earning:', error);
+      throw new Error('Error creating earning');
+    }
   },
 
   async updateEarning(id, data) {
-    return Earning.findByIdAndUpdate(id, data, { new: true });
+    try {
+      return await Earning.findByIdAndUpdate(id, data, { new: true });
+    } catch (error) {
+      console.error('Error updating earning:', error);
+      throw new Error('Error updating earning');
+    }
   },
 
   async deleteEarning(id) {
-    return Earning.findByIdAndDelete(id);
+    try {
+      return await Earning.findByIdAndDelete(id);
+    } catch (error) {
+      console.error('Error deleting earning:', error);
+      throw new Error('Error deleting earning');
+    }
   }
-}; 
+};

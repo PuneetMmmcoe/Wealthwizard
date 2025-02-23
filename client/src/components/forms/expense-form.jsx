@@ -171,4 +171,4 @@ export default function ExpenseForm({ onSuccess }) {
       </Button>
     </form>
   );
-} 
+}
