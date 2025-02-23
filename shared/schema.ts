@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, decimal, date, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, decimal, date, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -41,6 +41,13 @@ export const earnings = pgTable("earnings", {
   userId: integer("user_id").notNull(),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
   date: date("date").notNull(),
+});
+
+// Session table for connect-pg-simple
+export const sessions = pgTable("session", {
+  sid: text("sid").primaryKey(),
+  sess: text("sess").notNull(),
+  expire: timestamp("expire", { mode: "date" }).notNull(),
 });
 
 // Insert schemas
